@@ -7,12 +7,12 @@ import android.content.SharedPreferences
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import dk.skancode.barcodescannermodule.Enabler
-import dk.skancode.barcodescannermodule.IExpoModule
+import dk.skancode.barcodescannermodule.IEventHandler
 import dk.skancode.barcodescannermodule.IScannerModule
 import dk.skancode.barcodescannermodule.ScanMode
 import dk.skancode.barcodescannermodule.ScannerConfigKey
 
-class NewlandScannerModule(private val context: Context, private val module: IExpoModule) : IScannerModule {
+class NewlandScannerModule(private val context: Context, private val module: IEventHandler) : IScannerModule {
     private val dataReceiver = BarcodeDataReceiver(module)
     private fun getPreferences(): SharedPreferences {
         return context.getSharedPreferences(context.packageName + ".barcode", Context.MODE_PRIVATE)
@@ -25,7 +25,7 @@ class NewlandScannerModule(private val context: Context, private val module: IEx
     override fun setScannerState(enabler: Enabler) {
         getPreferences().edit().putString("scannerState", enabler.value).apply()
         configureScanner(ScannerConfigKey.SCAN_POWER, enabler.ordinal)
-        module.sendEvent("onScannerStateChange", bundleOf(
+        module.onDataReceived("onScannerStateChange", bundleOf(
             "state" to enabler.value,
         ))
     }

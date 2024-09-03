@@ -7,11 +7,11 @@ import android.content.SharedPreferences
 import androidx.core.content.ContextCompat
 import androidx.core.os.bundleOf
 import dk.skancode.barcodescannermodule.Enabler
-import dk.skancode.barcodescannermodule.IExpoModule
+import dk.skancode.barcodescannermodule.IEventHandler
 import dk.skancode.barcodescannermodule.IScannerModule
 import dk.skancode.barcodescannermodule.ScanMode
 
-class UnitechScannerModule(private val context: Context, private val module: IExpoModule): IScannerModule {
+class UnitechScannerModule(private val context: Context, private val module: IEventHandler): IScannerModule {
     private val dataReceiver = BarcodeDataReceiver(module)
     private fun getPreferences(): SharedPreferences {
         return context.getSharedPreferences(context.packageName + ".barcode", Context.MODE_PRIVATE)
@@ -30,7 +30,7 @@ class UnitechScannerModule(private val context: Context, private val module: IEx
             Intent("unitech.scanservice.close").putExtra("close", true)
 
         context.sendBroadcast(intent)
-        module.sendEvent("onScannerStateChange", bundleOf(
+        module.onDataReceived("onScannerStateChange", bundleOf(
             "state" to enabler.value,
         ))
     }

@@ -6,7 +6,7 @@ import dk.skancode.barcodescannermodule.unitechimpl.UnitechScannerModule
 
 class ScannerModuleFactory {
     companion object {
-        fun fromBrand(brand: String, context: Context, module: IExpoModule): IScannerModule {
+        fun fromBrand(brand: String, context: Context, module: IEventHandler): IScannerModule {
             return when (brand.lowercase()) {
                 "newland" -> NewlandScannerModule(context, module)
                 "unitech" -> UnitechScannerModule(context, module)
