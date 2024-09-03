@@ -20,5 +20,4 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "BarcodeScannerProject"
-include(":app")
 include(":BarcodeScannerModule")
